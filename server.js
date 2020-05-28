@@ -29,17 +29,27 @@ app.get("/notes", function (req, res) {
 //creating API routes
 app
   .get("/api/notes", function (req, res) {
-    readFileAsync("db.json", "utf8").then(function (notes) {
+    readFileAsync(path.join(__dirname, "db", "db.json"), "utf8").then(function (
+      notes
+    ) {
       return res.json(notes);
     });
   })
-  .post(function (req, res) {
+  .post("/api/notes", function (req, res) {
+    console.log("sure whatever", req.body);
     const newNote = req.body;
     newNote.id = uuidv4();
-    appendFileAsync("db.json", newNote).then(function () {
-      return newNote;
+    appendFileAsync(
+      path.join(__dirname, "db", "db.json"),
+      JSON.stringify(newNote)
+    ).then(function () {
+      return res.json(newNote);
     });
   });
+
+app.delete("/api/notes/:id", function (id) {
+  readFileAsync("db.json", "utf8").then(function (notes) {});
+});
 
 //initializes the server to begin listening
 app.listen(PORT, function () {
