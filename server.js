@@ -29,13 +29,19 @@ app.get("/notes", function (req, res) {
 //creating API routes
 app
   .get("/api/notes", function (req, res) {
-    fs.readFile("db.json", () => {
+    readFileAsync("db.json", "utf8").then(function (notes) {
       return res.json(notes);
     });
   })
   .post(function (req, res) {
     const newNote = req.body;
     newNote.id = uuidv4();
-    fs.appendFile("db.json", newNote);
-    return newNote;
+    appendFileAsync("db.json", newNote).then(function () {
+      return newNote;
+    });
   });
+
+//initializes the server to begin listening
+app.listen(PORT, function () {
+  console.log(`App listening on PORT ${PORT}`);
+});
