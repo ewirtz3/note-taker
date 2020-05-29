@@ -16,6 +16,7 @@ const appendFileAsync = promisify(fs.appendFile);
 //middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("public"));
 
 //creating HTML routes
 app.get("/", function (req, res) {
