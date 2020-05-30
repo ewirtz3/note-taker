@@ -11,12 +11,15 @@ const PORT = process.env.PORT || 3000;
 
 //promisifying fs.readFile and fs.appendFile
 const readFileAsync = promisify(fs.readFile);
-const appendFileAsync = promisify(fs.appendFile);
+const writeFileAsync = promisify(fs.writeFile);
 
 //middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
+
+//defining data as an array
+let notesArray = [];
 
 //creating HTML routes
 app.get("/", function (req, res) {
@@ -29,10 +32,11 @@ app.get("/notes", function (req, res) {
 
 //creating API routes
 app.get("/api/notes", function (req, res) {
-  readFileAsync(path.join(__dirname, "db", "db.json"), "utf8").then(function (
-    notes
-  ) {
-    return res.json(notes);
+  console.log("this route is hit");
+  readFileAsync(path.join(__dirname, "db", "db.json"), "utf8").then((notes) => {
+    console.log(JSON.parse(notes));
+    notesArray = JSON.parse(notes);
+    return res.json(JSON.parse(notes));
   });
 });
 
@@ -40,11 +44,15 @@ app.post("/api/notes", function (req, res) {
   console.log("sure whatever", req.body);
   const newNote = req.body;
   newNote.id = uuidv4();
-  appendFileAsync(
+  notesArray.push(newNote);
+  console.log(notesArray);
+  writeFileAsync(
     path.join(__dirname, "db", "db.json"),
-    JSON.stringify(newNote)
-  ).then(function () {
-    return res.json(newNote);
+    JSON.stringify(notesArray)
+  ).then(() => {
+    readFileAsync(path.join(__dirname, "db", "db.json"), "utf8").then(() => {
+      return res.json(JSON.parse(newNote));
+    });
   });
 });
 
