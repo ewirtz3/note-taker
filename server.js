@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
-//defining route
+//defining JSON file route
 const db_FILE = path.join(__dirname, "db", "db.json");
 
 //middleware
@@ -31,15 +31,13 @@ app.get("/notes", function (req, res) {
 });
 
 //creating API routes
-app.get("/api/notes", function (req, res) {
-  console.log("this route is hit");
+app.get("/api/notes", (req, res) => {
   readFileAsync(db_FILE, "utf8").then((notes) => {
-    console.log(JSON.parse(notes));
     return res.json(JSON.parse(notes));
   });
 });
 
-app.post("/api/notes", function (req, res) {
+app.post("/api/notes", (req, res) => {
   readFileAsync(db_FILE, "utf8").then((data) => {
     const newNote = req.body;
     newNote.id = uuidv4();
@@ -51,8 +49,7 @@ app.post("/api/notes", function (req, res) {
   });
 });
 
-app.delete("/api/notes/:id", function (req, res) {
-  //get the data from the file
+app.delete("/api/notes/:id", (req, res) => {
   readFileAsync(db_FILE, "utf8").then((data) => {
     let notesArray = JSON.parse(data);
     notesArray = notesArray.filter((note) => note.id !== req.params.id);
@@ -60,13 +57,6 @@ app.delete("/api/notes/:id", function (req, res) {
       return res.json(notesArray);
     });
   });
-  //parse the data from the file
-  //filter the data to exclude the provided id
-  //save updated (fitered) data to the file
-  //end request (return a success msg)
-  readFileAsync(path.join(__dirname, "db", "db.json"), "utf8").then(function (
-    notes
-  ) {});
 });
 
 //initializes the server to begin listening
