@@ -4,6 +4,8 @@
 
 This application, deployed via Heroku, enables the user to write and save notes, as well as delete notes. Application utilizes Express to enable a functioning backend, save, write, and read note data to/from a JSON file.
 
+Link to app: https://stark-meadow-19348.herokuapp.com/
+
 Link to YouTube demonstration of application functionality: https://youtu.be/PTNeRbAUK60
 
 Link to repository: https://github.com/ewirtz3/note-taker
