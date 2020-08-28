@@ -8,8 +8,6 @@ Link to app: https://stark-meadow-19348.herokuapp.com/
 
 Link to YouTube demonstration of application functionality: https://youtu.be/PTNeRbAUK60
 
-Link to repository: https://github.com/ewirtz3/note-taker
-
 <img src="https://img.shields.io/github/last-commit/ewirtz3/note-taker?style=for-the-badge"/>
 
 ## Table of Contents
